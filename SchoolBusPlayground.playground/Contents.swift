@@ -33,10 +33,15 @@ PlaygroundPage.current.liveView = canvas
  ## A vous de jouer !
  */
 class Bus {
+    var driverName = "Joe"
+    var seats = 20
+    var occupiedSeats = 0
     
+    let numberOfWheel = 4 // Le nombre de roue est constant et vaut 4
 }
 
 class Road {
+    var sections = [RoadBusSection]()
     
 }
 
