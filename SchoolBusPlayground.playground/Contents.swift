@@ -96,12 +96,26 @@ class RoadSection {                     // class RoadSection = type RoadSection
     }
 }
 
+class HomeRoadSection: RoadSection {        // On créé la class HomeRoadSection qui hérite de la class RoadSection
+    init() {                                // On initialise la class
+        super.init(type: .home)             // On utilise le mot "super" qui permet de faire récupéré les propriété/méthode de la classe mère dans ce cas
+    }                                       // on récupère l'init de la class RoadSection donc "super.init(type: .home)"
+}
+
+class SchoolRoadSection: RoadSection {      // On créé la class HomeRoadSection qui hérite de la class RoadSection
+    init() {                                // On initialise la class
+        super.init(type: .school)           // On utilise le mot "super" qui permet de faire récupéré les propriété/méthode de la classe mère dans ce cas
+    }                                       // on récupère l'init de la class RoadSection donc "super.init(type: .school)"
+}
+
+
+
 var route = Road(length: 20)             // On appel la class Road à laquelle on remplie le paramètre pour créer le nombre de sections via la variable route
 var unBus = Bus(driverName: "Jean")     // On appel la class Bus à laquelle on ajoute remplie le paramètre via la variable unBus
 unBus.drive(road: route)                /* On utilise l'instance unBus à laquelle on utilise la méthode drive qui prend le paramètre "road" auquel on ajoute
                                         le type Road de paramètre 20 via la variable route */
 
-class SchoolBus: Bus {                  // la class ShoolBus hérite de la classe Bus, donc elle retrouvr toutes ses propriétés et méthodes
+class SchoolBus: Bus {                  // la class ShoolBus hérite de la classe Bus, donc elle retrouve toutes ses propriétés et méthodes
     let schoolName = ""                 // On peut créer des nouvelles propriétés ou méthodes a cette nouvelle classe
 }
 var unBusScolaire = SchoolBus(driverName: "Jean")   // Ensuite on utilise toutes les propriétés et méthode de la class Bus & SchoolBus
