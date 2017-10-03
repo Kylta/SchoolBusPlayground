@@ -56,6 +56,10 @@ class Bus {                             // class Bus = type Bus
     }
 }
 
+enum RoadSectionType {                  // On créé notre énumération de type RoadSectionType
+    case plain, home, school            // Notre énumération comporte 3 cas: plain, home & school
+}
+
 
 class Road {                            // class Road = type Road
     var sections = [RoadSection]()      // propriété variable : sections ; Créé un tableau de section de route qu'on peut parcourir
@@ -71,15 +75,24 @@ class Road {                            // class Road = type Road
             length = Road.maxLength     // length sera égale a la propriété maxLength qui vaut 77. Elle ne dépassera donc jamais 77 sections de routes.
         }
         for _ in 0..<length {           // On parcour le tableau pour aller de 0 jusqu'au paramètre length de type Int lors que l'appel de la méthode ex: 20
-            self.sections.append(RoadSection()) // On appel le propriété sections a laquelle on ajoute le tableau des sections de routes
-        }
+            self.sections.append(RoadSection(type: .plain)) // On appel le propriété sections a laquelle on ajoute le tableau des sections sur lequel on
+        }                                                   //   met l'énumération ".plain" pour créer une section de route nue */
     }
 }
 
 class RoadSection {                     // class RoadSection = type RoadSection
+    var type: RoadSectionType           // On créé une propriété de nom type qui ramène notre énumération RoadSectionType
     
-    init() {                            // On itinialise la class RoadSection
-        canvas.createRoadSection()      // On ajoute le canvas "canvas.createRoadSection()" pour créer des sections de route avec la class RoadSection
+    init(type: RoadSectionType) {       // Ensuite on initialise avec un paramètre qui ramène le type RoadSectionType pour rapporter notre énumération
+        self.type = type                // Ensuite j'utilise ma propriété type qui comporte RoadSectionType à laquelle je lui ajoute le paramètre type
+        switch type {                   // Ensuite j'ajoute mon switch
+        case.plain:                         // J'ajoute mon énum ".plain" qui créé une route de section nue avec "canvas.createRoadSection()"
+            canvas.createRoadSection()
+        case.home:                          // J'ajoute mon énum ".plain" qui créé une route de section avec maison avec "canvas.createHomeSection()"
+            canvas.createHomeRoadSection()
+        case.school:                         // J'ajoute mon énum ".plain" qui créé une route de section avec école avec "canvas.createSchoolSection()"
+            canvas.createSchoolRoadSection()
+        }
     }
 }
 
