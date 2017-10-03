@@ -57,7 +57,6 @@ class Bus {                             // class Bus = type Bus
 }
 
 
-
 class Road {                            // class Road = type Road
     var sections = [RoadSection]()      // propriété variable : sections ; Créé un tableau de section de route qu'on peut parcourir
     static let maxLength = 77           // Propriété constante : maxLength vaut 77
@@ -89,4 +88,8 @@ var unBus = Bus(driverName: "Jean")     // On appel la class Bus à laquelle on 
 unBus.drive(road: route)                /* On utilise l'instance unBus à laquelle on utilise la méthode drive qui prend le paramètre "road" auquel on ajoute
                                         le type Road de paramètre 20 via la variable route */
 
-
+class SchoolBus: Bus {                  // la class ShoolBus hérite de la classe Bus, donc elle retrouvr toutes ses propriétés et méthodes
+    let schoolName = ""                 // On peut créer des nouvelles propriétés ou méthodes a cette nouvelle classe
+}
+var unBusScolaire = SchoolBus(driverName: "Jean")   // Ensuite on utilise toutes les propriétés et méthode de la class Bus & SchoolBus
+unBusScolaire.seats = 50
