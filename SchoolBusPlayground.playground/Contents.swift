@@ -97,7 +97,11 @@ class RoadSection {                     // class RoadSection = type RoadSection
 }
 
 class HomeRoadSection: RoadSection {        // On créé la class HomeRoadSection qui hérite de la class RoadSection
-    init() {                                // On initialise la class
+    var children: Int                       // On ajoute la propriété children de type Int
+    
+    init(children: Int) {                   // On ajoute le paramètre children de type Int
+        self.children = children            // On ajoute le paramètre children de type Int à la propriété children
+        
         super.init(type: .home)             // On utilise le mot "super" qui permet de faire récupéré les propriété/méthode de la classe mère dans ce cas
     }                                       // on récupère l'init de la class RoadSection donc "super.init(type: .home)"
 }
@@ -116,7 +120,7 @@ unBus.drive(road: route)                /* On utilise l'instance unBus à laquel
                                         le type Road de paramètre 20 via la variable route */
 
 class SchoolBus: Bus {                  // la class ShoolBus hérite de la classe Bus, donc elle retrouve toutes ses propriétés et méthodes
-    let schoolName = ""                 // On peut créer des nouvelles propriétés ou méthodes a cette nouvelle classe
+    var schoolName = ""                 // On peut créer des nouvelles propriétés ou méthodes a cette nouvelle classe
 }
 var unBusScolaire = SchoolBus(driverName: "Jean")   // Ensuite on utilise toutes les propriétés et méthode de la class Bus & SchoolBus
 unBusScolaire.seats = 50
