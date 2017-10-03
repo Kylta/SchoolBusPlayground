@@ -48,10 +48,21 @@ var unBus = Bus(driverName: "Jean")
 unBus.driverName
 
 class Road {
-    var sections = [RoadBusSection]()
-    
+    var sections = [RoadSection]()
+
+    init(length: Int) {
+        for _ in 0..<length {
+            self.sections.append(RoadSection())
+        }
+    }
 }
 
-class RoadBusSection {
+class RoadSection {
     
+    init() {
+        canvas.createRoadSection()
+    }
 }
+
+var road = Road(length: 20)
+
