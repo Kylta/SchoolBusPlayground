@@ -60,8 +60,17 @@ class Bus {                             // class Bus = type Bus
 
 class Road {                            // class Road = type Road
     var sections = [RoadSection]()      // propriété variable : sections ; Créé un tableau de section de route qu'on peut parcourir
-
+    static let maxLength = 77           // Propriété constante : maxLength vaut 77
+    
+    static func createStraightRoad() -> Road {  // Créé une méthode de class sans paramètre qui retourne le type de la class Road
+        return Road(length: 11)                 // Il retourne la class Road qui créé 11 sections de routes
+    }
+    
     init(length: Int) {                 // Initialisation de la class Road avec paramètre "length" de type Int; ensuite conditions
+        var length = length             // On créé la variable length du paramètre de l'init length
+        if length > Road.maxLength {    // Si length > Road.maxLength (on appel la propriété maxLength de la class Road) /n
+            length = Road.maxLength     // length sera égale a la propriété maxLength qui vaut 77. Elle ne dépassera donc jamais 77 sections de routes.
+        }
         for _ in 0..<length {           // On parcour le tableau pour aller de 0 jusqu'au paramètre length de type Int lors que l'appel de la méthode ex: 20
             self.sections.append(RoadSection()) // On appel le propriété sections a laquelle on ajoute le tableau des sections de routes
         }
