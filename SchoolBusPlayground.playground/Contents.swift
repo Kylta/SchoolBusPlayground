@@ -69,6 +69,19 @@ class Road {                            // class Road = type Road
         return Road(length: 11)                 // Il retourne la class Road qui créé 11 sections de routes
     }
     
+    static func createRoadToSchool() -> Road {  // On créé notre méthode de class qui retourne la class Road
+        let road = Road(length: 30)             // On crée une constante pour ramener notre class Road avec un paramètre qui vaut 30 (30 sections de routes)
+        for i in 0..<30 {                       // On parcours notre paramètre de 30 sections de routes, donc pour i allant de 0 à 29.
+            if i % 7 == 1 {                     // Si on est sur la 7ème section on crée une section de route avec une maison
+                road.sections.append(HomeRoadSection(children: 2))  // On ramène notre class "HomeRoadSection()" auquel on remplie le paramètre children: 2
+            } else {                                                // Sinon, on crée des sections de route vide
+                road.sections.append(RoadSection(type: .plain))     // On ramène notre class RoadSection  auquel on utilise le paramètre RoadSectionType
+            }                                                       // de la class RoadSectionType qui utilise l'énumération ".plain" pour créer la route
+        }                                                           // vide
+        road.sections.append(SchoolRoadSection())                   // On ramène notre class "SchoolRoadSection" pour créer notre school à la 30ème section
+        return road                                                 // Ensuite on retourne notre paramètre road pour avoir nos 30 sections de route.
+    }
+
     init(length: Int) {                 // Initialisation de la class Road avec paramètre "length" de type Int; ensuite conditions
         var length = length             // On créé la variable length du paramètre de l'init length
         if length > Road.maxLength {    // Si length > Road.maxLength (on appel la propriété maxLength de la class Road) /n
@@ -95,6 +108,7 @@ class RoadSection {                     // class RoadSection = type RoadSection
         }
     }
 }
+
 
 class HomeRoadSection: RoadSection {        // On créé la class HomeRoadSection qui hérite de la class RoadSection
     var children: Int                       // On ajoute la propriété children de type Int
