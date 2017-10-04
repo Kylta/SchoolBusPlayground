@@ -135,6 +135,20 @@ unBus.drive(road: route)                /* On utilise l'instance unBus à laquel
 
 class SchoolBus: Bus {                  // la class ShoolBus hérite de la classe Bus, donc elle retrouve toutes ses propriétés et méthodes
     var schoolName = ""                 // On peut créer des nouvelles propriétés ou méthodes a cette nouvelle classe
+    
+    override func drive(road: Road) {   // On utilise le methode "drive" de la class mère Bus dont on utilise le paramètre road pour ramener la class Road
+        for section in road.sections {  // Pour les sections dans la class Road qui créé les sections road.sections = "var sections = [RoadSection]()" l.65
+            switch section.type {       // Ensuite on parcours section dont on lui ramène la variable type l.100 pour pouvoir utiliser les énumérations
+            case .plain:                // On utilise l'énumération ".plain" pour notre section de route vide
+                moveForward()           // Le bus avance lorsque nous sommes sur l'énumération donc "canvas.createRoadSection()" qui est une section vide
+            case .home:                 // On utilise l'énumération ".home" pour notre section de route avec maison
+                stopBus()               // Le bus s'arrête lorsqu'on est à une section de route avec maison ".home" = canvas.createHomeRoadSection()
+            case .school:               // On utilise l'énumération ".school" pour notre section de route avec école
+                stopBus()               // Le bus s'arrête lorsqu'on est sur une section de route avec école ".school" = canvas.createSchoolRoadSection()
+            }
+        }
+    }
 }
+
 var unBusScolaire = SchoolBus(driverName: "Jean")   // Ensuite on utilise toutes les propriétés et méthode de la class Bus & SchoolBus
-unBusScolaire.seats = 50
+
