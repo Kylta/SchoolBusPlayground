@@ -1,5 +1,5 @@
-/*: 
-⬇️ *Vous pouvez ignorez le code ci-dessous, il nous permet juste d'initialiser et de visualiser le canvas à droite.*
+/*:
+ ⬇️ *Vous pouvez ignorez le code ci-dessous, il nous permet juste d'initialiser et de visualiser le canvas à droite.*
  */
 import PlaygroundSupport
 let canvas = Canvas()
@@ -12,24 +12,17 @@ PlaygroundPage.current.liveView = canvas
  Le canevas, c'est l'étendue de pelouse verte qui se trouve sur la droite 🌿.
  Sur ce canevas, nous allons pouvoir dessiner notre route. Et nous allons faire cela en utilisant les fonctions proposées par le canevas :
  ## Route
-
  `canvas.createRoadSection()`
  - 🛣 Cette fonction permet de **créer une section de route**. A chaque appel de cette fonction, une nouvelle section de route est crée.
-
  `canvas.createHomeRoadSection()`
  - 🛣🏠 Similaire à la précédente, cette fonction permet de créer une section de route **qui contient une maison**.
-
  `canvas.createSchoolRoadSection()`
  - 🛣🏫 Similaire à la précédente, cette fonction permet de créer une section de route **qui contient une école**.
-
  ## Bus
  `canvas.moveBusForward()`
-
  - 🚌➡️ Cette fonction permet de faire avancer le bus jusqu'à la section de route suivante. Attention, le bus ne peut pas avancer s'il n'y a plus de route devant lui.
-
  `canvas.stopBus()`
  - 🚌🛑 Cette fonction permet de faire marquer un arrêt au bus.
-
  ## A vous de jouer !
  */
 class Bus {                             // class Bus = type Bus
@@ -56,10 +49,36 @@ class Bus {                             // class Bus = type Bus
     }
 }
 
-enum RoadSectionType {                  // On créé notre énumération de type RoadSectionType
-    case plain, home, school            // Notre énumération comporte 3 cas: plain, home & school
+class SchoolBus: Bus {                  // la class ShoolBus hérite de la classe Bus, donc elle retrouve toutes ses propriétés et méthodes
+    var schoolName = ""                 // On peut créer des nouvelles propriétés ou méthodes a cette nouvelle classe
+    
+    override func drive(road: Road) {   // On utilise le methode "drive" de la class mère Bus dont on utilise le paramètre road pour ramener la class Road
+        for section in road.sections {  // Pour les sections dans la class Road qui créé les sections road.sections = "var sections = [RoadSection]()" l.65
+            switch section.type {       // Ensuite on parcours section dont on lui ramène la variable type l.100 pour pouvoir utiliser les énumérations
+            case .plain:                // On utilise l'énumération ".plain" pour notre section de route vide
+                moveForward()           // Le bus avance lorsque nous sommes sur l'énumération donc "canvas.createRoadSection()" qui est une section vide
+            case .home:                 // On utilise l'énumération ".home" pour notre section de route avec maison
+                stopBus()               // Le bus s'arrête lorsqu'on est à une section de route avec maison ".home" = canvas.createHomeRoadSection()
+            case .school:               // On utilise l'énumération ".school" pour notre section de route avec école
+                stopBus()               // Le bus s'arrête lorsqu'on est sur une section de route avec école ".school" = canvas.createSchoolRoadSection()
+            }
+        }
+    }
+    
+    func pickChildren(from roadSection: RoadSection) {      // On créé la méthode pickChildren qui utilise l'étiquette from du paramètre roadSection qui ramène la class RoadSection
+        if let section = roadSection as? HomeRoadSection {  // On controle la class RoadSection en créant la variable section qui change le paramètre roadSection en HomeRoadSection
+            occupiedSeats += section.children               // Ensuite on ajoute à la propriété "occupiedSeats" le nombre d'enfant de la propriété children de HomeRoadSection via la nouvelle
+        }                                                   // variable créée en local "section", ce qui donne "section.children" => section = class HomeRoadSection donc on peut utiliser la
+    }                                                       // propriété children de HomeRoadSection sur la propriété locale section. => section.children
+    
+    func shouldPickChildren() -> Bool {                     // On créé la méthode shouldPickChildren pour que occupiedSeats soit toujours inférieur à seats avec la fonction retour: Bool (vrai)
+        return occupiedSeats < seats                        // Tant que occupiedSeats < seats la fonction = Bool donc elle s'éxecute, si occupiedSeats > seats la fonction = False donc ne
+    }                                                       // s'éxécute pas.
+    
+    func dropChildren() {                                   // On crée la méthode dropChildren pour que la paramètre "occupiedSeats" de la class Bus soit de nouveau à 0
+        occupiedSeats = 0                                   // Donc on demande à la propriété occupiedSeats de revenir à 0 soit => occupiedSeats = 0
+    }                                                       // Lorsque nous utiliserons cette méthode, occupiedSeats sera égale à 0 soit la réinitialisation de la propriété occupiedSeats
 }
-
 
 class Road {                            // class Road = type Road
     var sections = [RoadSection]()      // propriété variable : sections ; Créé un tableau de section de route qu'on peut parcourir
@@ -81,7 +100,7 @@ class Road {                            // class Road = type Road
         road.sections.append(SchoolRoadSection())                   // On ramène notre class "SchoolRoadSection" pour créer notre school à la 30ème section
         return road                                                 // Ensuite on retourne notre paramètre road pour avoir nos 30 sections de route.
     }
-
+    
     init(length: Int) {                 // Initialisation de la class Road avec paramètre "length" de type Int; ensuite conditions
         var length = length             // On créé la variable length du paramètre de l'init length
         if length > Road.maxLength {    // Si length > Road.maxLength (on appel la propriété maxLength de la class Road) /n
@@ -91,6 +110,10 @@ class Road {                            // class Road = type Road
             self.sections.append(RoadSection(type: .plain)) // On appel le propriété sections a laquelle on ajoute le tableau des sections sur lequel on
         }                                                   //   met l'énumération ".plain" pour créer une section de route nue */
     }
+}
+
+enum RoadSectionType {
+    case plain, home, school
 }
 
 class RoadSection {                     // class RoadSection = type RoadSection
@@ -127,28 +150,7 @@ class SchoolRoadSection: RoadSection {      // On créé la class HomeRoadSectio
 }
 
 
-
-var route = Road(length: 20)             // On appel la class Road à laquelle on remplie le paramètre pour créer le nombre de sections via la variable route
-var unBus = Bus(driverName: "Jean")     // On appel la class Bus à laquelle on ajoute remplie le paramètre via la variable unBus
-unBus.drive(road: route)                /* On utilise l'instance unBus à laquelle on utilise la méthode drive qui prend le paramètre "road" auquel on ajoute
-                                        le type Road de paramètre 20 via la variable route */
-
-class SchoolBus: Bus {                  // la class ShoolBus hérite de la classe Bus, donc elle retrouve toutes ses propriétés et méthodes
-    var schoolName = ""                 // On peut créer des nouvelles propriétés ou méthodes a cette nouvelle classe
-    
-    override func drive(road: Road) {   // On utilise le methode "drive" de la class mère Bus dont on utilise le paramètre road pour ramener la class Road
-        for section in road.sections {  // Pour les sections dans la class Road qui créé les sections road.sections = "var sections = [RoadSection]()" l.65
-            switch section.type {       // Ensuite on parcours section dont on lui ramène la variable type l.100 pour pouvoir utiliser les énumérations
-            case .plain:                // On utilise l'énumération ".plain" pour notre section de route vide
-                moveForward()           // Le bus avance lorsque nous sommes sur l'énumération donc "canvas.createRoadSection()" qui est une section vide
-            case .home:                 // On utilise l'énumération ".home" pour notre section de route avec maison
-                stopBus()               // Le bus s'arrête lorsqu'on est à une section de route avec maison ".home" = canvas.createHomeRoadSection()
-            case .school:               // On utilise l'énumération ".school" pour notre section de route avec école
-                stopBus()               // Le bus s'arrête lorsqu'on est sur une section de route avec école ".school" = canvas.createSchoolRoadSection()
-            }
-        }
-    }
-}
-
+var road = Road.createRoadToSchool()
 var unBusScolaire = SchoolBus(driverName: "Jean")   // Ensuite on utilise toutes les propriétés et méthode de la class Bus & SchoolBus
+
 
