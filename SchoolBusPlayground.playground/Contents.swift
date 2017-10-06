@@ -58,8 +58,13 @@ class SchoolBus: Bus {                  // la class ShoolBus hérite de la class
             case .plain:                // On utilise l'énumération ".plain" pour notre section de route vide
                 moveForward()           // Le bus avance lorsque nous sommes sur l'énumération donc "canvas.createRoadSection()" qui est une section vide
             case .home:                 // On utilise l'énumération ".home" pour notre section de route avec maison
-                stopBus()               // Le bus s'arrête lorsqu'on est à une section de route avec maison ".home" = canvas.createHomeRoadSection()
+                if shouldPickChildren() {           // On utilise la méthode shouldPickChildren tant que occupiedSeats < seats
+                    pickChildren(from: section)     // On ajoute les enfants à shouldPickChildren
+                    stopBus()                       // On s'arrête à chaque maison pour récupéré les enfants
+                }
+                moveForward()           // Le bus repart lorsqu'il a récupéré les enfants
             case .school:               // On utilise l'énumération ".school" pour notre section de route avec école
+                dropChildren()          // Une fois arrivé à l'école le bus dépose les enfants donc occupiedSeats = 0
                 stopBus()               // Le bus s'arrête lorsqu'on est sur une section de route avec école ".school" = canvas.createSchoolRoadSection()
             }
         }
@@ -108,7 +113,7 @@ class Road {                            // class Road = type Road
         }
         for _ in 0..<length {           // On parcour le tableau pour aller de 0 jusqu'au paramètre length de type Int lors que l'appel de la méthode ex: 20
             self.sections.append(RoadSection(type: .plain)) // On appel le propriété sections a laquelle on ajoute le tableau des sections sur lequel on
-        }                                                   //   met l'énumération ".plain" pour créer une section de route nue */
+        }                                                   //   met l'énumération ".plain" pour créer une section de route nue
     }
 }
 
@@ -152,5 +157,5 @@ class SchoolRoadSection: RoadSection {      // On créé la class HomeRoadSectio
 
 var road = Road.createRoadToSchool()
 var unBusScolaire = SchoolBus(driverName: "Jean")   // Ensuite on utilise toutes les propriétés et méthode de la class Bus & SchoolBus
-
+unBusScolaire.drive(road: road)
 
