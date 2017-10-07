@@ -28,7 +28,20 @@ PlaygroundPage.current.liveView = canvas
 class Bus {                             // class Bus = type Bus
     var driverName: String              // propriété variable : driverName
     var seats = 20                      // propriété variable : seats
-    var occupiedSeats = 0               // propriété variable : occupiedSeats
+    var occupiedSeats = 0 {             // propriété variable : occupiedSeats
+        willSet {                       // On observe la propriété stockée avant la modification
+            print("Il y a du mouvement dans le bus !")      // On affiche qu'il va y avoir du mouvement dans le bus avant modification
+        }
+        didSet {                        // On observe la propriété stockée après la modification
+            if occupiedSeats > oldValue {                   // Si occupiedSeats > oldValue (donc si "occupiedSeats" est plus grand que l'ancienne valeur "oldValue")
+                print("(\(occupiedSeats) - \(oldValue)) = \(occupiedSeats - oldValue) personnes viennet de monter !")   // On affiche le nombre de personnes qui viennent de monter
+                                    // de façon détaillée pour bien comprendre l'ancienne valeur et la nouvelle. ("occupiedSeats" = Nouvelle valeur) et ("oldValue" = ancienne valeur)
+            } else {                                        // Sinon, on affiche le nombre de personnes qui viennent de descendre
+                print("(\(oldValue) - \(occupiedSeats)) = \(oldValue - occupiedSeats) personnes viennent de descendre !")  // On affiche le nombre de personne qui descendent de facon
+                                                            // détaillé, l'ancienne valeur est bien égale à 10 et la nouvelle est égale à 0.            }
+            }
+        }
+    }
     
     let numberOfWheel = 4               // propriété constante : Le nombre de roue est constant et vaut 4
     
@@ -48,7 +61,7 @@ class Bus {                             // class Bus = type Bus
         }
     }
 }
-
+    
 class SchoolBus: Bus {                  // la class ShoolBus hérite de la classe Bus, donc elle retrouve toutes ses propriétés et méthodes
     var schoolName = ""                 // On peut créer des nouvelles propriétés ou méthodes a cette nouvelle classe
     
@@ -69,7 +82,7 @@ class SchoolBus: Bus {                  // la class ShoolBus hérite de la class
             }
         }
     }
-    
+
     func pickChildren(from roadSection: RoadSection) {      // On créé la méthode pickChildren qui utilise l'étiquette from du paramètre roadSection qui ramène la class RoadSection
         if let section = roadSection as? HomeRoadSection {  // On controle la class RoadSection en créant la variable section qui change le paramètre roadSection en HomeRoadSection
             occupiedSeats += section.children               // Ensuite on ajoute à la propriété "occupiedSeats" le nombre d'enfant de la propriété children de HomeRoadSection via la nouvelle
@@ -111,9 +124,6 @@ class Road {                            // class Road = type Road
         if length > Road.maxLength {    // Si length > Road.maxLength (on appel la propriété maxLength de la class Road) /n
             length = Road.maxLength     // length sera égale a la propriété maxLength qui vaut 77. Elle ne dépassera donc jamais 77 sections de routes.
         }
-        for _ in 0..<length {           // On parcour le tableau pour aller de 0 jusqu'au paramètre length de type Int lors que l'appel de la méthode ex: 20
-            self.sections.append(RoadSection(type: .plain)) // On appel le propriété sections a laquelle on ajoute le tableau des sections sur lequel on
-        }                                                   //   met l'énumération ".plain" pour créer une section de route nue
     }
 }
 
@@ -158,4 +168,3 @@ class SchoolRoadSection: RoadSection {      // On créé la class HomeRoadSectio
 var road = Road.createRoadToSchool()
 var unBusScolaire = SchoolBus(driverName: "Jean")   // Ensuite on utilise toutes les propriétés et méthode de la class Bus & SchoolBus
 unBusScolaire.drive(road: road)
-
