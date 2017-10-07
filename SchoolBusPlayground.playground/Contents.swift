@@ -34,13 +34,16 @@ class Bus {                             // class Bus = type Bus
         }
         didSet {                        // On observe la propriété stockée après la modification
             if occupiedSeats > oldValue {                   // Si occupiedSeats > oldValue (donc si "occupiedSeats" est plus grand que l'ancienne valeur "oldValue")
-                print("(\(occupiedSeats) - \(oldValue)) = \(occupiedSeats - oldValue) personnes viennet de monter !")   // On affiche le nombre de personnes qui viennent de monter
-                                    // de façon détaillée pour bien comprendre l'ancienne valeur et la nouvelle. ("occupiedSeats" = Nouvelle valeur) et ("oldValue" = ancienne valeur)
-            } else {                                        // Sinon, on affiche le nombre de personnes qui viennent de descendre
-                print("(\(oldValue) - \(occupiedSeats)) = \(oldValue - occupiedSeats) personnes viennent de descendre !")  // On affiche le nombre de personne qui descendent de facon
-                                                            // détaillé, l'ancienne valeur est bien égale à 10 et la nouvelle est égale à 0.            }
+                print("\(occupiedSeats - oldValue) personnes viennent de monter !")   // On affiche le nombre de personnes qui viennent de monter
+            } else {
+                print("\(oldValue - occupiedSeats) personnes viennent de descendre !")  // On affiche le nombre de personnes qui descendent
             }
         }
+    }
+    
+    var description: String {                               // On créé un propriété calculée en lecture seule pour qu'elle ne puisse pas être modifiée
+        return "Je suis un bus condruit par \(driverName) avec \(occupiedSeats) personnes dedans !" // Nous avons seulement besoin d'un getter et donc on peut utiliser cette méthode
+                                                                                                    // pour que ce soit plus rapide et simple à déchiffrer
     }
     
     let numberOfWheel = 4               // propriété constante : Le nombre de roue est constant et vaut 4
@@ -167,4 +170,5 @@ class SchoolRoadSection: RoadSection {      // On créé la class HomeRoadSectio
 
 var road = Road.createRoadToSchool()
 var unBusScolaire = SchoolBus(driverName: "Jean")   // Ensuite on utilise toutes les propriétés et méthode de la class Bus & SchoolBus
+unBusScolaire.description
 unBusScolaire.drive(road: road)
