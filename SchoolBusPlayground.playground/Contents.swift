@@ -142,13 +142,18 @@ class RoadSection {                     // class RoadSection = type RoadSection
         switch type {                   // Ensuite j'ajoute mon switch
         case.plain:                         // J'ajoute mon énum ".plain" qui créé une route de section nue avec "canvas.createRoadSection()"
             canvas.createRoadSection()
-        case.home:                          // J'ajoute mon énum ".plain" qui créé une route de section avec maison avec "canvas.createHomeSection()"
+        case.home:                          // J'ajoute mon énum ".home" qui créé une route de section avec maison avec "canvas.createHomeSection()"
             canvas.createHomeRoadSection()
-        case.school:                         // J'ajoute mon énum ".plain" qui créé une route de section avec école avec "canvas.createSchoolSection()"
+        case.school:                         // J'ajoute mon énum ".school" qui créé une route de section avec école avec "canvas.createSchoolSection()"
             canvas.createSchoolRoadSection()
         }
     }
+    
+    convenience init() {                    // On créé une initialisation pratique de RoadSection sur l'initialisation désignée
+        self.init(type: .plain)             // On appelle l'initialisation désignée avec le mot-clé "self" auquel on ajoute le paramètre ".plain"
+    }
 }
+
 
 
 class HomeRoadSection: RoadSection {        // On créé la class HomeRoadSection qui hérite de la class RoadSection
@@ -157,15 +162,21 @@ class HomeRoadSection: RoadSection {        // On créé la class HomeRoadSectio
     init(children: Int) {                   // On ajoute le paramètre children de type Int
         self.children = children            // On ajoute le paramètre children de type Int à la propriété children
         
-        super.init(type: .home)             // On utilise le mot "super" qui permet de faire récupéré les propriété/méthode de la classe mère dans ce cas
+        super.init(type: .home)             // On utilise le mot "super" qui permet de faire récupéré les propriété/méthode de la classe mère
     }                                       // on récupère l'init de la class RoadSection donc "super.init(type: .home)"
+    
+    convenience init() {                    // On créé une initialisation pratique de HomeRoadSection sur l'initialisation désignée
+        self.init(children: 2)              // On appelle l'initialisation désignée avec le mot-clé "self" auquel on ajoute 2 au paramètre
+    }                                       
 }
+
 
 class SchoolRoadSection: RoadSection {      // On créé la class HomeRoadSection qui hérite de la class RoadSection
     init() {                                // On initialise la class
-        super.init(type: .school)           // On utilise le mot "super" qui permet de faire récupéré les propriété/méthode de la classe mère dans ce cas
+        super.init(type: .school)           // On utilise le mot "super" qui permet de faire récupéré les propriété/méthode de la classe mère
     }                                       // on récupère l'init de la class RoadSection donc "super.init(type: .school)"
 }
+
 
 
 var road = Road.createRoadToSchool()
